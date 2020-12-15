@@ -7,7 +7,7 @@ interface InputFieldProps {
 }
 
 const InputFieldStyle = styled.div`
-  @media (max-width: 768px) {
+  @media (min-width: 768px) {
     align-self: flex-end;
   }
 `;

@@ -5,6 +5,7 @@ import InputField from './InputField';
 import List from './List';
 import Search from './Search';
 import Toggle from './Toggle';
+import Row from './Row';
 
 const ToolBar = styled.div`
   display: flex;
@@ -28,9 +29,7 @@ export default function Tab1() {
   const [searchValue, setSearchValue] = React.useState<string | undefined>();
 
   const handleAdd = (name: string) => {
-    const newList = list.map(item => item);
-    newList.push(name);
-    setList(newList);
+    setList([...list, name]);
   }
 
   const handleDelete = (index: number) => {
@@ -53,12 +52,14 @@ export default function Tab1() {
 
   return (
     <Container>
-      <ToolBar>
-        <InputField onAdd={handleAdd} checkNames={checkNames} />
-        <Search searchNames={searchNames} />
-        <Toggle hideOdd={hideOdd} onChange={handleOnChange} />
-      </ToolBar>
-      <List list={list} onDelete={handleDelete} hideOdd={hideOdd} searchValue={searchValue} />
+      <Row>
+        <ToolBar>
+          <InputField onAdd={handleAdd} checkNames={checkNames} />
+          <Search searchNames={searchNames} />
+          <Toggle hideOdd={hideOdd} onChange={handleOnChange} />
+        </ToolBar>
+        <List list={list} onDelete={handleDelete} hideOdd={hideOdd} searchValue={searchValue} />
+      </Row>
     </Container>
   )
 }

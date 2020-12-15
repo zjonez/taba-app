@@ -1,3 +1,19 @@
+# Simple Tab App
+
+## Quick Setup
+
+clone this repo using the following commands
+
+### `git clone https://github.com/zjonez/taba-app.git`
+
+on the root of the project, run the following command to install dependencies
+
+### `npm install`
+
+## *documentation below is generated create-react-app
+
+<br />
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
