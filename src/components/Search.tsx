@@ -13,17 +13,17 @@ const SearchInput = styled.div`
 
 export default function Search(props: SearchProps) {
   const { searchNames } = props;
-  const [value, setValue] = React.useState<string | undefined>();
+  const [name, setName] = React.useState<string | undefined>();
 
   const handleOnChange = (e: React.FormEvent<HTMLInputElement>) => {
     const { value } = e.target as HTMLInputElement;
-    setValue(value);
+    setName(value);
     searchNames(value);
   }
 
   return (
     <SearchInput>
-      <input type="text" placeholder="search" value={value || ''} onChange={(e) => {
+      <input type="text" placeholder="search" value={name || ''} onChange={(e) => {
         handleOnChange(e)
       }} />
     </SearchInput>

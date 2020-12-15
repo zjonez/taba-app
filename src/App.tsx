@@ -4,19 +4,24 @@ import NavTab from './components/NavTab';
 import Tab1 from './components/Tab1';
 import Tab2 from './components/Tab2';
 import Container from './components/Container';
-import Row from './components/Row';
+
+import { Provider } from 'react-redux';
+import { createStore } from 'redux';
+import AllReducers from './reducers';
+
+const store = createStore(AllReducers);
 
 function App() {
   return (
-    <Container>
-      <Row>
+    <Provider store={store}>
+      <Container>
         <NavTab />
         <Switch>
           <Route path="/" exact component={Tab1} />
           <Route path="/tab2" component={Tab2} />
         </Switch>
-      </Row>
-    </Container>
+      </Container>
+    </Provider>
   );
 }
 

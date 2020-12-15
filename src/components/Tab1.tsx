@@ -5,7 +5,12 @@ import InputField from './InputField';
 import List from './List';
 import Search from './Search';
 import Toggle from './Toggle';
-import Row from './Row';
+
+import { connect } from 'react-redux';
+
+interface Tab1Props {
+  names: Array<string>;
+}
 
 const ToolBar = styled.div`
   display: flex;
@@ -23,27 +28,17 @@ const ToolBar = styled.div`
   }
 `;
 
-export default function Tab1() {
-  const [list, setList] = React.useState<Array<string>>([]);
+const Tab1 = (props: Tab1Props) => {
+  const { names } = props;
   const [hideOdd, setHideOdd] = React.useState<boolean>(false);
   const [searchValue, setSearchValue] = React.useState<string | undefined>();
-
-  const handleAdd = (name: string) => {
-    setList([...list, name]);
-  }
-
-  const handleDelete = (index: number) => {
-    const toDelete = list[index];
-    const newList = list.filter((item) => { return item !== toDelete })
-    setList(newList);
-  }
 
   const handleOnChange = () => {
     setHideOdd(!hideOdd);
   }
 
   const checkNames = (name: string) => {
-    return list.includes(name);
+    return names.includes(name);
   }
 
   const searchNames = (name: string) => {
@@ -52,14 +47,18 @@ export default function Tab1() {
 
   return (
     <Container>
-      <Row>
-        <ToolBar>
-          <InputField onAdd={handleAdd} checkNames={checkNames} />
-          <Search searchNames={searchNames} />
-          <Toggle hideOdd={hideOdd} onChange={handleOnChange} />
-        </ToolBar>
-        <List list={list} onDelete={handleDelete} hideOdd={hideOdd} searchValue={searchValue} />
-      </Row>
+      <ToolBar>
+        <InputField checkNames={checkNames} />
+        <Search searchNames={searchNames} />
+        <Toggle hideOdd={hideOdd} onChange={handleOnChange} />
+      </ToolBar>
+      <List list={names} hideOdd={hideOdd} searchValue={searchValue} />
     </Container>
   )
 }
+
+const MapStateToProps = (state: { names: Array<string> }) => {
+  return state;
+}
+
+export default connect(MapStateToProps)(Tab1);

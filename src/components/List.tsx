@@ -1,9 +1,12 @@
 import React from 'react'
 import styled from 'styled-components';
 
+import { bindActionCreators } from 'redux';
+import { connect, useDispatch } from 'react-redux';
+import { removeName } from '../actions';
+
 interface ListProps {
   list: Array<string>;
-  onDelete: (index: number) => void;
   hideOdd: boolean;
   searchValue: string | undefined;
 }
@@ -43,8 +46,9 @@ const itemFound = (item: string, name: string | undefined) => {
   return found;
 }
 
-export default function List(props: ListProps) {
-  const { list, onDelete, hideOdd, searchValue } = props;
+const List = (props: ListProps) => {
+  const dispatch = useDispatch();
+  const { list, hideOdd, searchValue } = props;
   return (
     <ListStyle>
       {list.map((item, index) => {
@@ -52,7 +56,7 @@ export default function List(props: ListProps) {
           return (
             <ListItem key={`list-item-${index}`}>
               {index + 1}. {item}
-              <button onClick={() => { onDelete(index) }}> x </button>
+              <button onClick={() => { dispatch(removeName(item)) }}> x </button>
             </ListItem>
           )
         } else {
@@ -62,3 +66,16 @@ export default function List(props: ListProps) {
     </ListStyle>
   )
 }
+
+const mapStateToProps = (state: Array<string>) => ({
+  names: state
+})
+
+const matchDispatchToProps = (dispatch: any) => {
+  return bindActionCreators({
+    removeName: removeName
+  }, dispatch)
+}
+
+
+export default connect(mapStateToProps, matchDispatchToProps)(List)

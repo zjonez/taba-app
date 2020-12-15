@@ -1,8 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
+import { useDispatch } from 'react-redux';
+import { addName } from '../actions';
 
 interface InputFieldProps {
-  onAdd: (value: string) => void;
   checkNames: (name: string) => boolean;
 }
 
@@ -24,21 +25,22 @@ const AddElement = styled.div`
   }
 `
 
-export default function InputField(props: InputFieldProps) {
-  const { onAdd, checkNames } = props;
+const InputField = (props: InputFieldProps) => {
+  const dispatch = useDispatch();
+  const { checkNames } = props;
 
-  const [value, setValue] = React.useState<string | ''>('');
+  const [name, setName] = React.useState<string | ''>('');
   const [errorMsg, setErrorMsg] = React.useState<string | null>(null);
 
   const handleOnChange = (e: React.FormEvent<HTMLInputElement>) => {
     const { value } = e.target as HTMLInputElement;
-    setValue(value);
+    setName(value);
   }
 
   const addItem = () => {
     setErrorMsg(null);
-    if (validateName(value)) {
-      onAdd(value);
+    if (validateName(name)) {
+      dispatch(addName(name));
     }
   }
 
@@ -69,7 +71,7 @@ export default function InputField(props: InputFieldProps) {
     <InputFieldStyle>
       {renderError()}
       <AddElement>
-        <input type="text" value={value} onChange={(e) => {
+        <input type="text" value={name} onChange={(e) => {
           handleOnChange(e);
         }} />
         <button onClick={addItem}>Add</button>
@@ -77,3 +79,5 @@ export default function InputField(props: InputFieldProps) {
     </InputFieldStyle>
   )
 }
+
+export default InputField;
